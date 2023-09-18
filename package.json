@@ -1,0 +1,25 @@
+{
+  "name": "my-nextjs-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "my-nextjs-project/node_modules/.bin/next dev",
+    "build": "my-nextjs-project/node_modules/.bin/next build",
+    "start": "my-nextjs-project/node_modules/.bin/next start",
+    "lint": "my-nextjs-project/node_modules/.bin/next lint"
+  },
+  "dependencies": {
+    "@types/node": "20.6.2",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "autoprefixer": "10.4.15",
+    "eslint": "8.49.0",
+    "eslint-config-next": "13.4.19",
+    "next": "13.4.19",
+    "postcss": "8.4.29",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2"
+  }
+}
