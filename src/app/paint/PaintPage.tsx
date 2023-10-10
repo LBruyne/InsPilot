@@ -138,6 +138,8 @@ export default function PaintPage() {
                     stage: toStage
                 }
             })
+            setShowSelect(false)
+            setShowConfirmToConvergenceAlert(false)
         }
         // 如果切换到收敛阶段，需要进行判断
         else if (toStage === Stage.Convergence) {

@@ -96,8 +96,6 @@ export const LeftSide = forwardRef<LeftSideHandler, LeftSideProps>((props: LeftS
     const handleCancelToConvergence = () => {
         setShowConfirmToConvergenceAlert(false)
     }
-
-    // 处理左侧点击事件
     useEffect(() => {
         if (isReady(currentStage)) {
             // 重新显示Alert并定时消失
@@ -106,20 +104,19 @@ export const LeftSide = forwardRef<LeftSideHandler, LeftSideProps>((props: LeftS
                 setShowLeftAlert(false);
             }, alertDisplayTime); // 30秒后自动隐藏
 
-            const handleClick = () => {
-                // 处理左侧Alert出现和消失
-                setShowLeftAlert(false);
-                // 重置上一次动作发生时间为现在
-                setLastActionTimestamp(Date.now());
-            };
-
-            leftSideRef.current?.addEventListener("click", handleClick);
             return () => {
                 clearTimeout(timer);
-                leftSideRef.current?.removeEventListener("click", handleClick);
             };
         }
     }, [isReady(currentStage)]);
+
+    // 处理左侧点击事件
+    const handleClickLeftSide = () => {
+        // 处理左侧Alert出现和消失
+        setShowLeftAlert(false);
+        // 重置上一次动作发生时间为现在
+        setLastActionTimestamp(Date.now());
+    }
 
     // 缩略图相关事件
     const saveImage = async () => {
@@ -185,7 +182,7 @@ export const LeftSide = forwardRef<LeftSideHandler, LeftSideProps>((props: LeftS
     return (
         <CanvasContext.Provider
             value={{canvasRef, canvasProps, setCanvasProps, strokeSize, setStrokeSize, eraseSize, setEraseSize, selectedTool, setSelectedTool}}>
-            <div className="flex-grow relative" ref={leftSideRef}>
+            <div className="flex-grow relative" ref={leftSideRef} onClick={handleClickLeftSide}>
                 <div className="absolute top-[16px] left-[20px] max-w-[53%] z-10">
                     {showLeftAlert && (
                         <div className="alert-animation">

@@ -55,6 +55,7 @@ export const RightSide = (props: RightSideProps) => {
         }
         return null;  // 如果没有找到匹配项，返回null
     }
+
     const handleNextCreative = (creativeType: CreativeType) => {
         // 找到下一个符合要求的刺激
         const nextCreative = findNextCreative(creativeType)
@@ -111,7 +112,7 @@ export const RightSide = (props: RightSideProps) => {
                     handleNextCreative(CreativeType.Deep)
                 }
             } else if (currentStage === Stage.Unable) {
-                if (selectedSchemes.length === 0  && duration > 30000) {
+                if (selectedSchemes.length === 0 && duration > 30000) {
                     // 未选择方案 & 30秒无操作
                     handleNextCreative(CreativeType.ConvergenceGroupOne);
                 }
@@ -189,6 +190,14 @@ export const RightSide = (props: RightSideProps) => {
     }
 
     // 处理右侧点击事件
+    const handleClickRightSide = () => {
+        // 处理Alert出现和消失
+        setShowRightAlert(false);
+        // 重置上一次动作发生时间为现在
+        setLastActionTimestamp(Date.now());
+    }
+
+    // 更新右侧的提示语
     useEffect(() => {
         if (isReady(currentStage)) {
             setShowRightAlert(true);
@@ -197,22 +206,11 @@ export const RightSide = (props: RightSideProps) => {
                 setShowRightAlert(false);
             }, alertDisplayTime); // 30秒后自动隐藏
 
-            const handleClick = () => {
-                // 处理右侧Alert出现和消失
-                setShowRightAlert(false);
-                // 重置上一次动作发生时间为现在
-                setLastActionTimestamp(Date.now());
-            };
-
-            ref.current?.addEventListener("click", handleClick);
             return () => {
                 clearTimeout(timer);
-                ref.current?.removeEventListener("click", handleClick);
             };
         }
     }, [isReady(currentStage), rightAlertMessage, currentCreativeThumbnailIndex]);
-
-    // 更新右侧的提示语
     useEffect(() => {
         if (currentCreativeThumbnailIndex !== undefined) {
             const currentCreative = designCreatives[creativeThumbnails[currentCreativeThumbnailIndex as number]];
@@ -234,7 +232,7 @@ export const RightSide = (props: RightSideProps) => {
     }, [currentCreativeThumbnailIndex])
 
     return (
-        <div ref={ref} className="flex-grow relative">
+        <div ref={ref} className="flex-grow relative" onClick={handleClickRightSide}>
             <div
                 className="absolute top-[16px] right-[20px] z-10 flex flex-col items-end justify-around"
             >

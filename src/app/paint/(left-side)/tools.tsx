@@ -216,10 +216,7 @@ export const Toolbox = () => {
     }
 
     return (
-        <div className="w-[100%] flex flex-col justify-end pr-[16px] pt-[16px]" onClick={e => {
-            // 点击事件将不会影响父节点
-            e.stopPropagation();
-        }}>
+        <div className="w-[100%] flex flex-col justify-end pr-[16px] pt-[16px]">
             <div
                 className="mb-[8px] z-10 w-[100%] h-[42px] flex items-center justify-around space-x-1 pl-2 pr-2"
                 style={{
