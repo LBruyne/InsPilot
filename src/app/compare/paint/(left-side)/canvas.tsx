@@ -1,12 +1,12 @@
 import {Input} from "antd";
 const {TextArea} = Input
-import {EllipseIcon} from "../../../../public/icons";
+import {EllipseIcon} from "../../../../../public/icons";
 import {
     designTextInputW
-} from "@/app/paint/config";
+} from "@/app/compare/paint/config";
 import {ReactSketchCanvas, } from "react-sketch-canvas";
 import React, { useLayoutEffect, useState} from "react";
-import {isReady} from "@/app/paint/Paint";
+import {isReady} from "@/app/compare/paint/ComparePaint";
 import {
     ADD_DESIGN_TEXT,
     CLEAR_DESIGN_TEXTS,
@@ -15,9 +15,9 @@ import {
     UPDATE_IMG,
     UPDATE_PATHS,
     UPDATE_SVG, usePaintContext
-} from "@/app/paint/provider";
+} from "@/app/compare/paint/provider";
 import {CanvasPath} from "react-sketch-canvas/src/types";
-import {Tools, useCanvasContext} from "@/app/paint/(left-side)/index";
+import {Tools, useCanvasContext} from "@/app/compare/paint/(left-side)";
 
 export interface ReactSketchCanvasProps {
     id?: string;

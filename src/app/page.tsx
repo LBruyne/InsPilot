@@ -7,7 +7,7 @@ const HomePage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        router.replace('/paint');
+        router.push('/paint');
     }, []);
 
     return null;

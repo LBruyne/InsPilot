@@ -18,7 +18,7 @@ export const CreativeDisplay = (props: CreativeDisplayProps) => {
                 >
                     <Image
                         height="100%"
-                        src={item.image}
+                        src={"data:image/jpeg;base64," + item.image}
                         style={{borderRadius: "10px"}}
                     />
                 </div>
@@ -53,12 +53,12 @@ export const CreativeDisplay = (props: CreativeDisplayProps) => {
                     <div className="w-full flex gap-2 flex-grow justify-center h-[70%] mb-2">
                         <Image
                             height="100%"
-                            src={item.combinations ? item.combinations[0].image : ""}
+                            src={item.combinations ? "data:image/jpeg;base64," + item.combinations[0].image : ""}
                             style={{borderRadius: "10px"}}
                         />
                         <Image
                             height="100%"
-                            src={item.combinations ? item.combinations[1].image : ""}
+                            src={item.combinations ? "data:image/jpeg;base64," + item.combinations[1].image : ""}
                             style={{borderRadius: "10px"}}
                         />
                     </div>

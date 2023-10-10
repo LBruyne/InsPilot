@@ -1,21 +1,19 @@
-// 从selectedSCHEME中获取id代表的真正方案
 import {Stage} from "@/app/paint/config";
-import {DesignSCHEMEType} from "@/app/paint/provider";
+import {DesignSchemeType} from "@/app/paint/provider";
 
-export const getSelectSCHEMEInfo = (index: number, designSCHEMEs: {
-    [key in Stage]: DesignSCHEMEType[] | null;
-}): {stage: Stage, SCHEMEIdx: number} => {
-    const rapidLength = designSCHEMEs[Stage.RapidDivergence]?.length;
-    const deepLength = designSCHEMEs[Stage.DeepDivergence]?.length;
-    if(index < rapidLength) {
+export const getSelectSchemeInfo = (index: number, designSchemes: {
+    [key in Stage]: DesignSchemeType[] | null;
+}): {stage: Stage, schemeIdx: number} => {
+    const rapidLength = designSchemes[Stage.RapidDivergence]?.length;
+    if(index < (rapidLength as number)) {
         return {
             stage: Stage.RapidDivergence,
-            SCHEMEIdx: index
+            schemeIdx: index
         }
     } else {
         return {
             stage: Stage.DeepDivergence,
-            SCHEMEIdx: index - rapidLength
+            schemeIdx: index - (rapidLength as number)
         }
     }
 }

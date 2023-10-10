@@ -10,22 +10,19 @@ import React, {
     useRef,
     useState
 } from "react";
-import {isDrawing, isReady} from "@/app/paint/Paint";
-import {alertDisplayTime, AlertSetting, eraseDefaultSize, Stage, strokeDefaultSize} from "@/app/paint/config";
+import {isDrawing, isReady} from "@/app/compare/paint/ComparePaint";
+import {alertDisplayTime, AlertSetting, eraseDefaultSize, Stage, strokeDefaultSize} from "@/app/compare/paint/config";
 import {
     ADD_SCHEME, DesignSchemeType,
-    PaintAction,
-    PaintState,
-    SWITCH_STAGE,
     UPDATE_CURRENT_SCHEME, UPDATE_IMG,
     usePaintContext
-} from "@/app/paint/provider";
+} from "@/app/compare/paint/provider";
 import {ReactSketchCanvasRef, CanvasPath} from "react-sketch-canvas";
 import {Alert, Button, Image, Space} from "antd";
 import {LeftOutlined, PlusCircleOutlined, RightOutlined} from "@ant-design/icons/lib/icons";
 import classNames from "classnames";
-import {Canvas, ReactSketchCanvasProps} from "@/app/paint/(left-side)/canvas";
-import {Toolbox} from "@/app/paint/(left-side)/tools";
+import {Canvas, ReactSketchCanvasProps} from "@/app/compare/paint/(left-side)/canvas";
+import {Toolbox} from "@/app/compare/paint/(left-side)/tools";
 
 const CanvasContext = createContext<CanvasContextType | undefined>(undefined);
 
@@ -51,7 +48,6 @@ export type LeftSideProps = {
     setShowLeftAlert: React.Dispatch<React.SetStateAction<boolean>>;
     showConfirmToConvergenceAlert: boolean,
     setShowConfirmToConvergenceAlert: React.Dispatch<React.SetStateAction<boolean>>;
-    setLastActionTimestamp: React.Dispatch<React.SetStateAction<number>>;
     switchToConvergenceStage: (Convergence: Stage.Convergence) => {}
 }
 
@@ -72,7 +68,7 @@ export const LeftSide = forwardRef<LeftSideHandler, LeftSideProps>((props: LeftS
         const scheme = designSchemes[currentScheme.stage][currentScheme.index] as DesignSchemeType;
         paths = scheme.paths
     }
-    const {leftSideRef: leftSideRef, switchToConvergenceStage, showLeftAlert, setShowLeftAlert, showConfirmToConvergenceAlert, setShowConfirmToConvergenceAlert, setLastActionTimestamp} = props
+    const {leftSideRef: leftSideRef, switchToConvergenceStage, showLeftAlert, setShowLeftAlert, showConfirmToConvergenceAlert, setShowConfirmToConvergenceAlert} = props
 
     // 画布相关状态
     const [selectedTool, setSelectedTool] = useState(Tools.Pen)
@@ -114,8 +110,6 @@ export const LeftSide = forwardRef<LeftSideHandler, LeftSideProps>((props: LeftS
     const handleClickLeftSide = () => {
         // 处理左侧Alert出现和消失
         setShowLeftAlert(false);
-        // 重置上一次动作发生时间为现在
-        setLastActionTimestamp(Date.now());
     }
 
     // 缩略图相关事件

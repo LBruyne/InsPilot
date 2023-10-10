@@ -1,12 +1,12 @@
-import {EraseIcon, PenIcon, TextIcon, UndoIcon} from "../../../../public/icons";
-import {isDrawing, isReady} from "@/app/paint/Paint";
+import {EraseIcon, PenIcon, TextIcon, UndoIcon} from "../../../../../public/icons";
+import {isDrawing, isReady} from "@/app/compare/paint/ComparePaint";
 import {ClearOutlined, SaveOutlined} from "@ant-design/icons/lib/icons";
-import {eraseLowerSize, eraseUpperSize, strokeLowerSize, strokeUpperSize} from "@/app/paint/config";
+import {eraseLowerSize, eraseUpperSize, strokeLowerSize, strokeUpperSize} from "@/app/compare/paint/config";
 import {Slider} from "antd";
 import React from "react";
 import {ReactSketchCanvasProps} from "react-sketch-canvas";
-import {CLEAR_DESIGN_TEXTS, UPDATE_IMG, usePaintContext} from "@/app/paint/provider";
-import {Tools, useCanvasContext} from "@/app/paint/(left-side)/index";
+import {CLEAR_DESIGN_TEXTS, UPDATE_IMG, usePaintContext} from "@/app/compare/paint/provider";
+import {Tools, useCanvasContext} from "@/app/compare/paint/(left-side)";
 
 export const Toolbox = () => {
     const {state: paintContext, dispatch} = usePaintContext()

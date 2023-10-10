@@ -1,7 +1,7 @@
 'use client';
 
 import {createContext, Dispatch, useContext, useReducer} from "react";
-import {CreativeType, Stage} from "@/app/paint/config";
+import {CreativeType, Stage} from "@/app/compare/paint/config";
 import {CanvasPath} from "react-sketch-canvas"
 
 export type TextPosition = {
@@ -39,8 +39,6 @@ export type DesignCreativeType = {
 }
 
 export type PaintState = {
-    // 用户信息
-    username: string
     currentScheme?: {
         index: number,
         stage: Stage
@@ -70,11 +68,10 @@ export const ADD_SCHEME = "ADD_SCHEME", SWITCH_STAGE = "SWITCH_STAGE", ADD_DESIG
     NEXT_CREATIVE = "NEXT_CREATIVE", CLEAR_DESIGN_TEXTS = "CLEAR_DESIGN_TEXTS",
     UPDATE_SELECTED_SCHEMES = "UPDATE_SELECTED_SCHEMES",
     UPDATE_CURRENT_SCHEME = "UPDATE_CURRENT_SCHEME", ADD_CREATIVES = "ADD_CREATIVES",
-    UPDATE_SCHEMES_NAME = "UPDATE_SCHEMES_NAME", UPDATE_USER_NAME = "UPDATE_USER_NAME"
+    UPDATE_SCHEMES_NAME = "UPDATE_SCHEMES_NAME"
 export type PaintAction = { type: string; payload: any }
 
 const initialState: PaintState = {
-    username: "",
     selectedSchemes: [],
     designCreatives: [],
     currentStage: Stage.NotReady,
@@ -252,12 +249,6 @@ function paintReducer(state: PaintState, action: PaintAction): PaintState {
                 }
             }
             return {...state, designSchemes: updatedDesignSchemes};
-        }
-        case UPDATE_USER_NAME: {
-            return {
-                ...state,
-                username: action.payload.username
-            };
         }
         default:
             return state;

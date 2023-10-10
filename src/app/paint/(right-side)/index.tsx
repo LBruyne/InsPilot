@@ -1,11 +1,11 @@
 import {LeftCircleOutlined, LeftOutlined, RightCircleOutlined, RightOutlined} from "@ant-design/icons/lib/icons";
 import {EllipseIcon} from "../../../../public/icons";
 import {alertDisplayTime, AlertSetting, CreativeMessageSetting, CreativeType, Stage} from "@/app/paint/config";
-import {Alert} from "antd";
+import {Alert, message, notification} from "antd";
 import {CreativeDisplay} from "@/app/paint/(right-side)/display";
 import classNames from "classnames";
 import React, {useEffect, useRef, useState} from "react";
-import {isReady} from "@/app/paint/page";
+import {isReady} from "@/app/paint/Paint";
 import {DesignCreativeType, NEXT_CREATIVE, NEXT_CREATIVE_ITEM, usePaintContext} from "@/app/paint/provider";
 
 export type RightSideProps = {
@@ -23,25 +23,18 @@ export const RightSide = (props: RightSideProps) => {
     const [rightAlertMessage, setRightAlertMessage] = useState(AlertSetting.CreativeStimulus.message);
     const [creativeThumbnails, setCreativeThumbnails] = useState<number[]>([]);
     const [currentCreativeThumbnailIndex, setCurrentCreativeThumbnailIndex] = useState<number | undefined>();
+    const [messageApi, messageHolder] = message.useMessage();
+
+    const openMessage = () => {
+        messageApi.open({
+            type: 'loading',
+            content: '生成刺激中...',
+            duration: 0,
+        });
+        setTimeout(messageApi.destroy, 2000);
+    };
     // 控制显示下一个刺激的逻辑
     const noActionTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-    // 创意刺激相关功能
-    // 输入设计任务并点击“完成”后即开始生成
-    // useEffect(() => {
-    //     if (designTask && designTask.length > 0) {
-    //         // TODO 生成该阶段刺激
-    //     }
-    // }, [designTask])
-    // 刺激数量不足时，进行补充
-    // useEffect(() => {
-    //     // const left = designCreatives.filter(
-    //     //     (creative) => creative.stage === currentStage && !creative.displayed
-    //     // ).length;
-    //     // if (left <= creativeLessLimit) {
-    //     //     // TODO 生成该阶段刺激
-    //     // }
-    // }, [currentCreativeIndex])
 
     function findNextCreative(creativeType: CreativeType): {
         nextIndex: number,
@@ -56,7 +49,7 @@ export const RightSide = (props: RightSideProps) => {
         return null;  // 如果没有找到匹配项，返回null
     }
 
-    const handleNextCreative = (creativeType: CreativeType) => {
+    const handleNextCreative = (creativeType: CreativeType, isClickEvent?: boolean) => {
         // 找到下一个符合要求的刺激
         const nextCreative = findNextCreative(creativeType)
         if (nextCreative !== null) {
@@ -68,10 +61,14 @@ export const RightSide = (props: RightSideProps) => {
             })
             setCreativeThumbnails((preThumbnails) => [...preThumbnails, nextCreative.nextIndex])
             setCurrentCreativeThumbnailIndex(creativeThumbnails.length)
+            // 重置上一次动作发生时间为现在
+            clearInterval(noActionTimerRef.current!)
+            setLastActionTimestamp(Date.now());
+        } else {
+            if(isClickEvent) {
+                openMessage()
+            }
         }
-        // 重置上一次动作发生时间为现在
-        clearInterval(noActionTimerRef.current!)
-        setLastActionTimestamp(Date.now());
     };
     // 根据未操作时间来判断是否需要下一个提示
     // FIXME：完全按照PRD设定相应逻辑，如果PRD发生修改，这里需要相应修改
@@ -99,22 +96,11 @@ export const RightSide = (props: RightSideProps) => {
                         handleNextCreative(CreativeType.RapidAbstract);
                     }
                 }
-                // else {
-                //     if (schemeNumber === 1 && duration > 15000) {
-                //         // 15秒无操作
-                //         handleNextCreative(CreativeType.RapidConcrete);
-                //     }
-                // }
             } else if (currentStage === Stage.DeepDivergence) {
                 if ((schemeNumber === 1 && duration > 20000)
                     || (schemeNumber > 1 && duration > 12000)) {
                     // 无方案 & 20秒无操作 或者 有方案 & 12秒无操作
                     handleNextCreative(CreativeType.Deep)
-                }
-            } else if (currentStage === Stage.Unable) {
-                if (selectedSchemes.length === 0 && duration > 30000) {
-                    // 未选择方案 & 30秒无操作
-                    handleNextCreative(CreativeType.ConvergenceGroupOne);
                 }
             } else if (currentStage === Stage.Convergence) {
                 if (selectedSchemes.length > 0 && duration > 12000) {
@@ -128,7 +114,7 @@ export const RightSide = (props: RightSideProps) => {
             noActionTimerRef.current = setInterval(checkInactivity, 1000);  // 每秒检查一次
             return () => clearInterval(noActionTimerRef.current!);
         }
-    }, [lastActionTimestamp]);
+    }, [lastActionTimestamp, designCreatives]);
     const canClickNextCreative = () => {
         // 如当前为收敛阶段且未选择方案，则下一张不可点击
         return !(currentStage == Stage.Convergence && selectedSchemes.length === 0)
@@ -166,20 +152,13 @@ export const RightSide = (props: RightSideProps) => {
             if (currentStage === Stage.RapidDivergence) {
                 // @ts-ignore
                 if (designSchemes[Stage.RapidDivergence]?.length < 8) {
-                    handleNextCreative(CreativeType.RapidAbstract);
+                    handleNextCreative(CreativeType.RapidAbstract, true);
                 }
-                // else if (designSchemes[Stage.RapidDivergence]?.length >= 8) {
-                //     handleNextCreative(CreativeType.RapidConcrete);
-                // }
             } else if (currentStage === Stage.DeepDivergence) {
-                handleNextCreative(CreativeType.Deep);
-            } else if (currentStage === Stage.Unable) {
-                if (selectedSchemes.length === 0) {
-                    handleNextCreative(CreativeType.ConvergenceGroupOne);
-                }
+                handleNextCreative(CreativeType.Deep, true);
             } else if (currentStage === Stage.Convergence) {
                 if (selectedSchemes.length > 0) {
-                    handleNextCreative(CreativeType.ConvergenceGroupTwo);
+                    handleNextCreative(CreativeType.ConvergenceGroupTwo, true);
                 }
             }
         }
@@ -223,7 +202,9 @@ export const RightSide = (props: RightSideProps) => {
                 }
             } else {
                 if (typeof (message) === "function") {
-                    setRightAlertMessage(message(currentCreative.relatedScheme))
+                    if (currentCreative.relatedScheme != null) {
+                        setRightAlertMessage(message(currentCreative.relatedScheme))
+                    }
                 } else {
                     setRightAlertMessage(message)
                 }
@@ -233,6 +214,7 @@ export const RightSide = (props: RightSideProps) => {
 
     return (
         <div ref={ref} className="flex-grow relative" onClick={handleClickRightSide}>
+            {messageHolder}
             <div
                 className="absolute top-[16px] right-[20px] z-10 flex flex-col items-end justify-around"
             >
@@ -311,7 +293,7 @@ export const RightSide = (props: RightSideProps) => {
                         {
                             isReady(currentStage) && (
                                 <div
-                                    className="flex flex-1 flex-col items-center absolute top-[10%] bottom-[12%] w-full pl-[20px] pr-[20px]"
+                                    className="flex flex-1 flex-col items-center absolute top-[12%] bottom-[15%] w-full pl-[20px] pr-[20px]"
                                 >
                                     <CreativeDisplay
                                         creative={designCreatives[creativeThumbnails[currentCreativeThumbnailIndex as number]]}/>
