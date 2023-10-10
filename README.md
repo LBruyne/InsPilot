@@ -7,7 +7,7 @@ The frontend for Refinity: a multimodal creative stimulus system.
 
 A dependency version is a recommended REQUIRED version, not a NEEDED version.
 
-If you find any problem during your development, that may be a problem of dependencies versions conflict.
+If you find any problem during the development, that may be a conflict of dependencies versions.
 
 Some outer environment (dependencies versions) is NEEDED and listed:
 
@@ -17,7 +17,7 @@ Some outer environment (dependencies versions) is NEEDED and listed:
 
 Run the command `npm install` or `yarn` to install the dependencies (`node_modules`) according to your package manager.
 
-Then run the command `npm run start` to initialize a front-server in your configured port (such as 3000).
+Then run the command `npm run dev` to initialize a front-server in your configured port (such as 3000).
 
 Browser the application in `localhost:port`.
 

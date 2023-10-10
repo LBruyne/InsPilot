@@ -1,25 +1,35 @@
 {
-  "name": "my-nextjs-project",
+  "name": "Refinity",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "my-nextjs-project/node_modules/.bin/next dev",
-    "build": "my-nextjs-project/node_modules/.bin/next build",
-    "start": "my-nextjs-project/node_modules/.bin/next start",
-    "lint": "my-nextjs-project/node_modules/.bin/next lint"
+    "dev": "node_modules/.bin/next dev",
+    "dev:mock": "USE_MOCK=true node_modules/.bin/next dev",
+    "build": "node_modules/.bin/next build",
+    "start": "node_modules/.bin/next start",
+    "lint": "node_modules/.bin/next lint"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "^1.17.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "20.6.2",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "antd": "^5.9.2",
     "autoprefixer": "10.4.15",
+    "classnames": "^2.3.2",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "mockjs": "^1.1.0",
     "next": "13.4.19",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.11.0",
+    "react-sketch-canvas": "^6.2.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2"
-  }
+  },
+  "typings": "src/types.d.ts"
 }
