@@ -1,11 +1,11 @@
 import {LeftCircleOutlined, LeftOutlined, RightCircleOutlined, RightOutlined} from "@ant-design/icons/lib/icons";
 import {EllipseIcon} from "../../../../public/icons";
-import {alertDisplayTime, CreativeMessageSetting, CreativeType, Stage} from "@/app/paint/config";
+import {alertDisplayTime, AlertSetting, CreativeMessageSetting, CreativeType, Stage} from "@/app/paint/config";
 import {Alert} from "antd";
 import {CreativeDisplay} from "@/app/paint/(right-side)/display";
 import classNames from "classnames";
 import React, {useEffect, useRef, useState} from "react";
-import {AlertSetting, isReady} from "@/app/paint/PaintPage";
+import {isReady} from "@/app/paint/page";
 import {DesignCreativeType, NEXT_CREATIVE, NEXT_CREATIVE_ITEM, usePaintContext} from "@/app/paint/provider";
 
 export type RightSideProps = {

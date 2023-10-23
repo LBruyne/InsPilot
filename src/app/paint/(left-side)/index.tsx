@@ -10,8 +10,8 @@ import React, {
     useRef,
     useState
 } from "react";
-import {AlertSetting, isDrawing, isReady} from "@/app/paint/PaintPage";
-import {alertDisplayTime, eraseDefaultSize, Stage, strokeDefaultSize} from "@/app/paint/config";
+import {isDrawing, isReady} from "@/app/paint/page";
+import {alertDisplayTime, AlertSetting, eraseDefaultSize, Stage, strokeDefaultSize} from "@/app/paint/config";
 import {
     ADD_SCHEME, DesignSchemeType,
     PaintAction,

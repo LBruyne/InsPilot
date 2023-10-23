@@ -1,5 +1,5 @@
 import {EraseIcon, PenIcon, TextIcon, UndoIcon} from "../../../../public/icons";
-import {isDrawing, isReady} from "@/app/paint/PaintPage";
+import {isDrawing, isReady} from "@/app/paint/page";
 import {ClearOutlined, SaveOutlined} from "@ant-design/icons/lib/icons";
 import {eraseLowerSize, eraseUpperSize, strokeLowerSize, strokeUpperSize} from "@/app/paint/config";
 import {Slider} from "antd";

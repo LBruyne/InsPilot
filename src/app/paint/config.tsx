@@ -10,6 +10,33 @@ export enum Stage {
     Finish = "完成"
 }
 
+export const AlertSetting = {
+        [Stage.NotReady]: {
+            icon: <WarningFilled style={{color: "#FCC400"}}/>,
+    message: "请先在左侧输入设计任务，并点击“完成”！",
+    },
+    [Stage.RapidDivergence]: {
+        icon: <InfoCircleFilled style={{color: '#6001FF'}}/>,
+        message: `你的设计任务正处于「${Stage.RapidDivergence}阶段」，现在就开始构思设计方案吧！`
+    },
+    [Stage.DeepDivergence]: {
+        icon: <InfoCircleFilled style={{color: '#6001FF'}}/>,
+        message: `你的设计任务正处于「${Stage.DeepDivergence}阶段」，现在就开始构思设计方案吧！`
+    },
+    [Stage.Convergence]: {
+        icon: <InfoCircleFilled style={{color: '#6001FF'}}/>,
+        message: `你的设计任务正处于「${Stage.Convergence}阶段」，现在就开始构思设计方案吧！`
+    },
+    TooFewSchemes: {
+        icon: <InfoCircleFilled style={{color: '#6001FF'}}/>,
+        message: "您的方案数量较少，确定要进入收敛阶段吗？",
+    },
+    CreativeStimulus: {
+        icon: <InfoCircleFilled style={{color: '#6001FF'}}/>,
+        message: "这里是创意刺激区域，如果没有灵感，我们会为你提供帮助！"
+    },
+}
+
 export enum CreativeType {
     RapidAbstract,
     RapidConcrete,

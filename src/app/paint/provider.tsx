@@ -35,7 +35,6 @@ export type DesignCreativeType = {
     items: DesignCreativeItem[], // 内部包含的item
     displayType: "sequence" | "direct", // 展示的方式
     displayed: boolean, // 是否被使用进行展示
-    displaySeqIdx?: number // 当前刺激
     displayIndex: number, // 当前展示的item
     relatedScheme: number // 当前刺激关联的方案
 }

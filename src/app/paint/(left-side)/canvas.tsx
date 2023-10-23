@@ -6,7 +6,7 @@ import {
 } from "@/app/paint/config";
 import {ReactSketchCanvas, } from "react-sketch-canvas";
 import React, {useEffect, useLayoutEffect, useRef, useState} from "react";
-import {AlertSetting, isDrawing, isReady} from "@/app/paint/PaintPage";
+import {isReady} from "@/app/paint/page";
 import {
     ADD_DESIGN_TEXT,
     CLEAR_DESIGN_TEXTS,
