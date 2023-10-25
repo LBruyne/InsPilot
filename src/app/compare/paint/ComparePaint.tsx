@@ -54,8 +54,9 @@ export function isDrawing(stage: Stage) {
 export default function ComparePaint() {
     // 获取全局状态数据　
     const {state: paintContext, dispatch} = usePaintContext()
-    const {currentStage, designTask, designSchemes, designCreatives, selectedSchemes} = paintContext;
+    const {username, currentStage, designTask, designSchemes, designCreatives, selectedSchemes} = paintContext;
     // 页面用到的内容 / 辅助变量
+    const [currentUsername, setCurrentUsername] = useState(username);
     const [currentDesignTaskInput, setCurrentDesignTaskInput] = useState(designTask);
     const leftSideRef = useRef(null);
     const leftSideContainerRef = useRef<LeftSideHandler | null>(null);
@@ -168,6 +169,30 @@ export default function ComparePaint() {
         }
     }
 
+    // 用户信息填写
+    const handleClickInputUsernameButton = async () => {
+        if (currentUsername && currentUsername.length > 0) {
+            // 改变设计任务
+            dispatch({
+                type: UPDATE_USER_NAME,
+                payload: {
+                    username: currentUsername
+                }
+            })
+            // 获取用户信息
+            const userInfo = await start({username: currentUsername})
+            // 更新操作信息
+            if(userInfo) {
+                dispatch({
+                    type: LOAD_STATE,
+                    payload: {
+                        username: currentUsername,
+                        data: userInfo
+                    }
+                })
+            }
+        }
+    };
     // 设计目标填写
     const handleClickFinishInputButton = async () => {
         if (currentDesignTaskInput && currentDesignTaskInput.length > 0) {
@@ -182,6 +207,11 @@ export default function ComparePaint() {
             })
         }
     };
+    useEffect(() => {
+        if(designTask && designTask.length) {
+            switchStage(Stage.RapidDivergence)
+        }
+    }, [designTask]);
 
     return (
         <div className="flex flex-col w-[100%] md:flex-row mt-[2%] mb-[2%] mr-[2%] bg-white">
@@ -189,6 +219,36 @@ export default function ComparePaint() {
             <div className="md:w-[15%] md:mr-[0.75%] border-r border-ebecf2 rounded-r-lg shadow-custom">
                 <NavBar />
                 <div className="p-[12px]">
+                    <span className='sub-title mb-[12px]'>用户信息（管理员输入）</span>
+                    {!username?.length ? (
+                        <>
+                            <TextArea
+                                className="rounded-md border border-[#F3F4F8] text-2 w-[100%]"
+                                value={currentUsername}
+                                onChange={(e) => setCurrentUsername(e.target.value)}
+                                placeholder="请输入用户信息"
+                                bordered={false}
+                                style={{height: "28px", resize: 'none', backgroundColor: "#F4F5F8"}}
+                            />
+                            <Button
+                                style={{
+                                    borderRadius: '6px',
+                                    border: '1px solid #6001FF',
+                                    background: '#FFF',
+                                    color: '#6001FF'
+                                }}
+                                size={"small"}
+                                onClick={handleClickInputUsernameButton}
+                                className="w-[100%] text-2 mt-2 mb-[48px]"
+                            >
+                                确认
+                            </Button>
+                        </>
+                    ) : (
+                        <div className="text-2 text-[#8F949B] mt-[12px] mb-[48px]">
+                            {username}
+                        </div>
+                    )}
                     <span className='sub-title mb-[12px]'>设计任务描述</span>
                     {(currentStage === Stage.NotReady && !designTask?.length) ? (
                         <>
@@ -208,7 +268,7 @@ export default function ComparePaint() {
                                     color: '#6001FF'
                                 }}
                                 onClick={handleClickFinishInputButton}
-                                className="w-[100%] h-[28px] text-2 mt-2"
+                                className="w-[100%] text-2 mt-2"
                             >
                                 完成
                             </Button>

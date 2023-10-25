@@ -7,13 +7,12 @@ import React from "react";
 import {ReactSketchCanvasProps} from "react-sketch-canvas";
 import {CLEAR_DESIGN_TEXTS, UPDATE_IMG, usePaintContext} from "@/app/compare/paint/provider";
 import {Tools, useCanvasContext} from "@/app/compare/paint/(left-side)";
+import {save} from "@/services/paint";
 
 export const Toolbox = () => {
     const {state: paintContext, dispatch} = usePaintContext()
-    const {currentScheme} = paintContext
+    const {currentScheme, designTask, username, designSchemes, currentStage} = paintContext
     const {setSelectedTool, selectedTool, setCanvasProps, setEraseSize, setStrokeSize, eraseSize, canvasRef, strokeSize, canvasProps} = useCanvasContext()
-
-    const {currentStage} = paintContext;
 
     const penHandler = () => {
         if (isDrawing(currentStage)) {
@@ -107,6 +106,16 @@ export const Toolbox = () => {
                 }
             })
         }
+
+        // 持久化存储
+        await save({
+            username: username,
+            data: {
+                designSchemes: designSchemes,
+                designTask: designTask,
+                currentStage: currentStage
+            }
+        })
     }
     const saveHandler = async () => {
         if (isDrawing(currentStage)) {
