@@ -5,11 +5,11 @@ import {Button, Input, Select} from 'antd';
 import classNames from "classnames";
 import {
     ADD_CREATIVES,
-    ADD_SCHEME,
+    ADD_SCHEME, LOAD_STATE,
     SWITCH_STAGE,
     UPDATE_CURRENT_SCHEME,
     UPDATE_DESIGN_TASK, UPDATE_SCHEMES_NAME,
-    UPDATE_SELECTED_SCHEMES,
+    UPDATE_SELECTED_SCHEMES, UPDATE_USER_NAME,
     usePaintContext
 } from "@/app/compare/paint/provider";
 import "./page.css"
@@ -19,6 +19,7 @@ import {
 } from "@/app/compare/paint/config";
 import {LeftSide, LeftSideHandler} from "./(left-side)";
 import NavBar from "@/components/NavBar";
+import {start} from "@/services/paint";
 
 const {TextArea} = Input;
 
