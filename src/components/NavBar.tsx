@@ -21,7 +21,7 @@ export default function NavBar() {
                 options={routeOptions}
                 className="pl-[12px] w-[100%] space-x-2"
                 onChange={(value) => {
-                    router.push(value)
+                    router.replace(value)
                 }}
             />
         </div>

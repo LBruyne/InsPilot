@@ -6,7 +6,7 @@ import {Button, Input, Select} from 'antd';
 import classNames from "classnames";
 import {
     ADD_CREATIVES,
-    ADD_SCHEME,
+    ADD_SCHEME, LOAD_STATE,
     SWITCH_STAGE,
     UPDATE_CURRENT_SCHEME,
     UPDATE_DESIGN_TASK, UPDATE_SCHEMES_NAME,
@@ -28,7 +28,7 @@ import {
     getConvergenceOneStimulus,
     getConvergenceTwoStimulus,
     getDeepDivergenceStimulus,
-    getRapidDivergenceStimulus
+    getRapidDivergenceStimulus, start
 } from "@/services/paint";
 import {getSelectSchemeInfo} from "@/lib/utils";
 import {usePathname, useRouter} from "next/navigation";
@@ -226,6 +226,17 @@ export default function Paint() {
                 }
             })
             // 获取用户信息
+            const userInfo = await start({username: currentUsername})
+            // 更新操作信息
+            if(userInfo) {
+                dispatch({
+                    type: LOAD_STATE,
+                    payload: {
+                        username: currentUsername,
+                        data: userInfo
+                    }
+                })
+            }
         }
     };
     // 设计目标填写
@@ -246,6 +257,11 @@ export default function Paint() {
             }
         }
     };
+    useEffect(() => {
+        if(designTask && designTask.length) {
+            switchStage(Stage.RapidDivergence)
+        }
+    }, [designTask]);
 
     const generateRapidDivergenceStimulus = async (task: string, num: number) => {
         const res: [] = await getRapidDivergenceStimulus({task, num});
@@ -312,7 +328,7 @@ export default function Paint() {
                 generateRapidDivergenceStimulus(designTask as string, maxGenInstanceNumber)
             }
         }
-    }, [getLeftCreativeNumber(CreativeType.RapidAbstract)]);
+    }, [currentStage, getLeftCreativeNumber(CreativeType.RapidAbstract)]);
     useEffect(() => {
         if (currentStage === Stage.Convergence) {
             const ss = selectedSchemes.map(si => {
@@ -326,7 +342,7 @@ export default function Paint() {
                 generateConvergenceTwoStimulus(ss as [])
             }
         }
-    }, [getLeftCreativeNumber(CreativeType.ConvergenceGroupTwo)]);
+    }, [currentStage, getLeftCreativeNumber(CreativeType.ConvergenceGroupTwo)]);
 
     // 监听键盘输入
     useEffect(() => {

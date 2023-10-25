@@ -17,7 +17,7 @@ export async function start({username}: {
         });
 
         const result = await res.json();
-        if (!result.success) return {};
+        if (!result.success) return undefined;
         return result.data;
     } catch (error: any) {
         throw new Error(`获取用户信息失败: ${error.message}`);
