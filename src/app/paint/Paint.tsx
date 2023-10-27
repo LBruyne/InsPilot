@@ -362,7 +362,7 @@ export default function Paint() {
             <div className="md:w-[15%] md:mr-[0.75%] border-r border-ebecf2 rounded-r-lg shadow-custom">
                 <NavBar />
                 <div className="p-[12px]">
-                    <span className='sub-title mb-[12px]'>用户信息（管理员输入）</span>
+                    <span className='sub-title mb-[12px]'>用户信息</span>
                     {!username?.length ? (
                         <>
                             <TextArea
@@ -428,7 +428,7 @@ export default function Paint() {
                             {
                                 recommendedSchemes && recommendedSchemes.length > 0 ? (
                                     <div className="my-[12px] text-[#8F949B] text-2 min-h-[90px] flex items-center" style={{whiteSpace: "pre-line"}}>
-                                        以下是我为你选择的三个最具新颖性和实用性的方案：{"\n"}{recommendedSchemes.map(r => "·" + r + "\n")}
+                                        以下是我为你选择的最具新颖性和实用性的方案：{"\n"}{recommendedSchemes.map(r => "·" + r + "\n")}
                                     </div>
                                 ) : (
                                     <div className="my-[12px] text-[#8F949B] text-2 min-h-[90px] flex items-center">
