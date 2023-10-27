@@ -243,10 +243,10 @@ export const LeftSide = forwardRef<LeftSideHandler, LeftSideProps>((props: LeftS
                     ref={canvasWrapperRef}
                     style={{overflow: "hidden"}}
                 >
-                    {isDrawing(currentStage) && currentScheme && <Canvas wrapperRef={canvasWrapperRef}/>}
+                    {isReady(currentStage) && currentScheme && <Canvas wrapperRef={canvasWrapperRef}/>}
                 </div>
 
-                {currentStage !== Stage.NotReady && (
+                {isReady(currentStage) && (
                     <div
                         className="absolute bottom-[16px] left-[20px] right-[20px] flex items-center justify-between">
                         <LeftOutlined style={{fontSize: '18px', color: "#D8D8D8"}}/>

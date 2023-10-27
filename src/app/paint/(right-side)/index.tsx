@@ -61,6 +61,9 @@ export const RightSide = (props: RightSideProps) => {
             })
             setCreativeThumbnails((preThumbnails) => [...preThumbnails, nextCreative.nextIndex])
             setCurrentCreativeThumbnailIndex(creativeThumbnails.length)
+            // 播放提示音
+            const TipAudio = new Audio('/audios/tip.mp3');
+            TipAudio.play()
             // 重置上一次动作发生时间为现在
             clearInterval(noActionTimerRef.current!)
             setLastActionTimestamp(Date.now());

@@ -5,7 +5,7 @@ import {
     designTextInputW
 } from "@/app/compare/paint/config";
 import {ReactSketchCanvas, } from "react-sketch-canvas";
-import React, { useLayoutEffect, useState} from "react";
+import React, {useEffect, useLayoutEffect, useState} from "react";
 import {isReady} from "@/app/compare/paint/ComparePaint";
 import {
     ADD_DESIGN_TEXT,
@@ -18,6 +18,7 @@ import {
 } from "@/app/compare/paint/provider";
 import {CanvasPath} from "react-sketch-canvas/src/types";
 import {Tools, useCanvasContext} from "@/app/compare/paint/(left-side)";
+import {isDrawing} from "@/app/paint/Paint";
 
 export interface ReactSketchCanvasProps {
     id?: string;
@@ -47,7 +48,7 @@ export type CanvasProps = {
 export const Canvas = (props: CanvasProps) => {
     const {state: paintContext, dispatch} = usePaintContext()
     const {currentScheme} = paintContext
-    const {selectedTool, canvasRef, canvasProps} = useCanvasContext()
+    const {selectedTool, canvasRef, canvasProps, setSelectedTool, setCanvasProps} = useCanvasContext()
     const {currentStage, designSchemes} = paintContext;
     const {texts = [], paths} = designSchemes[currentScheme!.stage]?.[currentScheme!.index] || {};
     const {wrapperRef: canvasWrapperRef} = props
@@ -152,6 +153,25 @@ export const Canvas = (props: CanvasProps) => {
             }
         })
     };
+    useEffect(() => {
+        if(!isDrawing(currentStage)) {
+            setSelectedTool(Tools.Others)
+            setCanvasProps(
+                (prevCanvasProps: Partial<ReactSketchCanvasProps>) => ({
+                    ...prevCanvasProps,
+                    allowOnlyPointerType: "touch"
+                })
+            );
+        } else {
+            setSelectedTool(Tools.Pen)
+            setCanvasProps(
+                (prevCanvasProps: Partial<ReactSketchCanvasProps>) => ({
+                    ...prevCanvasProps,
+                    allowOnlyPointerType: "all"
+                })
+            );
+        }
+    }, [currentStage]);
 
     return (
         <div
