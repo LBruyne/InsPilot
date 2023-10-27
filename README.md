@@ -6,7 +6,7 @@ The frontend for Refinity: a multimodal creative stimulus system.
 ### 主要依赖
 
 - `node`。运行 `node -v` 来检查是否已经安装 `node`。 开发环境中的 node 版本为 v16.16.0，但是在服务器的 v18.18.2 版本下也可以成功运行。
-- `react-sketch-canvas`。社区开源的画板库，用于画图功能的实现。该实现可能存在一些bug，但目前在使用时不存在问题。需要持续关注该库的升级和功能更新。
+- `react-sketch-canvas`。社区开源的画板库，用于画图功能的实现。该实现可能存在一些bug，但目前在使用时不存在问题。需要持续关注该库的升级和功能更新。参考资料见：https://github.com/vinothpandian/react-sketch-canvas
 - `tailwindcss`。一个常用的CSS库。
 - `next.js`。项目使用 next.js 13 进行开发。使用了最新的 App Router 模式。文档见：https://nextjs.org/docs/app
 
