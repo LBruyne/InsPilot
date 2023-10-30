@@ -145,7 +145,7 @@ export const LeftSide = forwardRef<LeftSideHandler, LeftSideProps>((props: LeftS
     // 根据当前阶段和当前方案更新方案的上下文
     useEffect(() => {
         // 清除画布
-        canvasRef.current?.clearCanvas();
+        canvasRef.current?.resetCanvas();
         // 更新画布和文本。只需要导入画布内容。
         if (paths) {
             canvasRef.current?.loadPaths(paths);
