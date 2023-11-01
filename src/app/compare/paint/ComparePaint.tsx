@@ -238,7 +238,7 @@ export default function ComparePaint() {
                                     background: '#FFF',
                                     color: '#6001FF'
                                 }}
-                                size={"small"}
+                                // size={"small"}
                                 onClick={handleClickInputUsernameButton}
                                 className="w-[100%] text-2 mt-2 mb-[48px]"
                             >
@@ -283,17 +283,6 @@ export default function ComparePaint() {
                     {(isReady(currentStage) && showSelect) && (
                         <>
                             <span className='sub-title mt-[12px]'>方案收敛</span>
-                            {
-                                recommendedSchemes && recommendedSchemes.length > 0 ? (
-                                    <div className="my-[12px] text-[#8F949B] text-2 min-h-[90px] flex items-center" style={{whiteSpace: "pre-line"}}>
-                                        以下是我为你选择的最具新颖性和实用性的方案：{"\n"}{recommendedSchemes.map(r => "·" + r + "\n")}
-                                    </div>
-                                ) : (
-                                    <div className="my-[12px] text-[#8F949B] text-2 min-h-[90px] flex items-center">
-                                        请稍等，我正在为你选择最具新颖性和实用性的方案...
-                                    </div>
-                                )
-                            }
                             <Select
                                 className='my-multiple-select'
                                 value={selectedSchemes}

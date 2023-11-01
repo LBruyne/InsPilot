@@ -380,7 +380,7 @@ export default function Paint() {
                                     background: '#FFF',
                                     color: '#6001FF'
                                 }}
-                                size={"small"}
+                                // size={"small"}
                                 onClick={handleClickInputUsernameButton}
                                 className="w-[100%] text-2 mt-2 mb-[48px]"
                             >

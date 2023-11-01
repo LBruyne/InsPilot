@@ -51,7 +51,7 @@ The frontend for Refinity: a multimodal creative stimulus system.
 
 ### 本地运行
 
-1. 运行之前请启动首先API服务（URL配置位于 `./src/configs/env.ts` 中）。
+1. 运行之前请首先启动API服务，即启动 `Refinity-api` 工程（URL配置位于 `./src/configs/env.ts` 中）。
 
 2. 运行指令 `npm install` 或者 `yarn` 来安装项目所需的依赖 (`node_modules`)。
 
