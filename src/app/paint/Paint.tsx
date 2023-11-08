@@ -108,10 +108,10 @@ export default function Paint() {
             if (toStage === Stage.DeepDivergence && designCreatives.filter(c =>
                 c.type === CreativeType.Deep && !c.displayed
             ).length === 0) {
-                const left =
-                    designSchemes[Stage.RapidDivergence]?.map(async (scheme, id) => {
-                        await generateDeepDivergenceStimulus(scheme.texts.map(t => t.text), id)
-                    })
+                // 对每个方案生成对应的深度收敛刺激
+                designSchemes[Stage.RapidDivergence]?.map(async (scheme, id) => {
+                    await generateDeepDivergenceStimulus(scheme.texts.map(t => t.text), scheme.canvasImage!, id)
+                })
             }
         }
         // 如果切换到收敛阶段，需要进行判断
@@ -148,10 +148,12 @@ export default function Paint() {
             }
             // 获取推荐的方案
             const rapidDivergenceSchemes = designSchemes[Stage.RapidDivergence]?.map(s => ({
-                designTexts : s.texts.map(t => t.text)
+                designTexts : s.texts.map(t => t.text),
+                designImage: s.canvasImage!
             }))!
             const deepDivergenceSchemes = designSchemes[Stage.DeepDivergence]?.map(s => ({
-                designTexts : s.texts.map(t => t.text)
+                designTexts: s.texts.map(t => t.text),
+                designImage: s.canvasImage!
             }))!
             await generateConvergenceOneStimulus([...rapidDivergenceSchemes, ...deepDivergenceSchemes] as [])
         }
@@ -276,8 +278,8 @@ export default function Paint() {
         }
     }
 
-    const generateDeepDivergenceStimulus = async (designTexts: string[], schemeId: number) => {
-        const res: [] = await getDeepDivergenceStimulus({designTexts, schemeId});
+    const generateDeepDivergenceStimulus = async (designTexts: string[], designImage: string, schemeId: number) => {
+        const res: [] = await getDeepDivergenceStimulus({designTexts, designImage, schemeId});
         if (res.length > 0) {
             dispatch({
                 type: ADD_CREATIVES,
@@ -291,7 +293,7 @@ export default function Paint() {
     }
 
     const generateConvergenceOneStimulus = async (schemes: []) => {
-        const res = await getConvergenceOneStimulus({selectNum: convergenceSchemeNumber, schemes});
+        const res = await getConvergenceOneStimulus({designTask: designTask as string, selectNum: convergenceSchemeNumber, schemes});
         // 更改名字
         dispatch({
             type: UPDATE_SCHEMES_NAME,

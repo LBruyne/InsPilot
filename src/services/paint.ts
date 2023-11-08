@@ -75,8 +75,9 @@ export async function getRapidDivergenceStimulus({task, num}: {
     }
 }
 
-export async function getDeepDivergenceStimulus({designTexts, schemeId}: {
+export async function getDeepDivergenceStimulus({designTexts, designImage, schemeId}: {
     designTexts: string[];
+    designImage: string; // image b64 
     schemeId: number;
 }) {
     try {
@@ -86,7 +87,7 @@ export async function getDeepDivergenceStimulus({designTexts, schemeId}: {
                 appid: PAINT_APP_ID,
                 type: 1,
                 prompts: {
-                    designTexts, schemeId
+                    designTexts, designImage, schemeId
                 }
             }),
             headers: {
@@ -102,9 +103,10 @@ export async function getDeepDivergenceStimulus({designTexts, schemeId}: {
     }
 }
 
-export async function getConvergenceOneStimulus({selectNum, schemes}: {
+export async function getConvergenceOneStimulus({designTask, selectNum, schemes}: {
+    designTask: string
     selectNum: number
-    schemes: {designTexts: []}[]
+    schemes: {designTexts: [], designImage: string}[]
 }) {
     try {
         const res = await fetch(`${baseUrl}/generate`, {
@@ -113,6 +115,7 @@ export async function getConvergenceOneStimulus({selectNum, schemes}: {
                 appid: PAINT_APP_ID,
                 type: 2,
                 prompts: {
+                    designTask, 
                     selectNum,
                     schemes
                 }
