@@ -69,4 +69,4 @@ The frontend for Refinity: a multimodal creative stimulus system.
 
 4. 构建完成后，运行以下命令来启动生产服务器：`npm run start`。
 
-5. 在生产环境中运行时，建议使用进程管理器（如 PM2）和监控工具来保持应用稳定并及时处理任何可能出现的问题。
+5. 在生产环境中运行时，建议使用进程管理器（如 PM2）和监控工具来保持应用稳定并及时处理任何可能出现的问题。首先安装`pm2`，然后可以使用命令：`pm2 start npm --name "Refinity" -- start`，来保证服务在SSH关闭后也可以持续运行在服务器上。

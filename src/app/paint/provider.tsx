@@ -1,6 +1,6 @@
 'use client';
 
-import {createContext, Dispatch, useContext, useReducer} from "react";
+import {createContext, Dispatch, useContext, useReducer, ReactNode} from "react";
 import {CreativeType, Stage} from "@/app/paint/config";
 import {CanvasPath} from "react-sketch-canvas"
 
@@ -282,7 +282,11 @@ function paintReducer(state: PaintState, action: PaintAction): PaintState {
 
 const PaintContext = createContext<PaintContextType | undefined>(undefined);
 
-export const PaintProvider: React.FC = ({children}) => {
+type PaintProviderProps = {
+    children?: ReactNode;
+};
+
+export const PaintProvider: React.FC<PaintProviderProps> = ({children}) => {
 
     const [state, dispatch] = useReducer(paintReducer, initialState);
 
