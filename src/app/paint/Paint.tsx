@@ -20,6 +20,7 @@ import {
     getGenerateNumber,
     maxGenInstanceNumber,
     minCreativeNumber,
+    minDeepCreativeNumber,
     Stage
 } from "@/app/paint/config";
 import {LeftSide, LeftSideHandler} from "./(left-side)";
@@ -104,15 +105,6 @@ export default function Paint() {
             })
             setShowSelect(false)
             setShowConfirmToConvergenceAlert(false)
-            // 如果切换到Deep且没有刺激，生成刺激
-            if (toStage === Stage.DeepDivergence && designCreatives.filter(c =>
-                c.type === CreativeType.Deep && !c.displayed
-            ).length === 0) {
-                // 对每个方案生成对应的深度收敛刺激
-                designSchemes[Stage.RapidDivergence]?.map(async (scheme, id) => {
-                    await generateDeepDivergenceStimulus(scheme.texts.map(t => t.text), scheme.canvasImage!, id)
-                })
-            }
         }
         // 如果切换到收敛阶段，需要进行判断
         else if (toStage === Stage.Convergence) {
@@ -146,16 +138,6 @@ export default function Paint() {
                     })
                 }
             }
-            // 获取推荐的方案
-            const rapidDivergenceSchemes = designSchemes[Stage.RapidDivergence]?.map(s => ({
-                designTexts : s.texts.map(t => t.text),
-                designImage: s.canvasImage!
-            }))!
-            const deepDivergenceSchemes = designSchemes[Stage.DeepDivergence]?.map(s => ({
-                designTexts: s.texts.map(t => t.text),
-                designImage: s.canvasImage!
-            }))!
-            await generateConvergenceOneStimulus([...rapidDivergenceSchemes, ...deepDivergenceSchemes] as [])
         }
     }
     // 切换阶段后
@@ -176,6 +158,25 @@ export default function Paint() {
             })
             // 重置时间
             setLastActionTimestamp(Date.now());
+        }
+
+        if(currentStage === Stage.Convergence) {
+            // 获取推荐的方案
+            const rapidDivergenceSchemes = designSchemes[Stage.RapidDivergence]?.map(s => ({
+                designTexts : s.texts.map(t => t.text),
+                designImage: s.canvasImage!
+            }))!
+            const deepDivergenceSchemes = designSchemes[Stage.DeepDivergence]?.map(s => ({
+                designTexts: s.texts.map(t => t.text),
+                designImage: s.canvasImage!
+            }))!
+            generateConvergenceOneStimulus([...rapidDivergenceSchemes, ...deepDivergenceSchemes] as [])
+        } else if (currentStage === Stage.DeepDivergence && designCreatives.filter(c => c.type === CreativeType.Deep && !c.displayed).length === 0) {
+            // 如果切换到Deep且没有刺激，生成刺激
+            // 对每个方案生成对应的深度收敛刺激
+            designSchemes[Stage.RapidDivergence]?.map(async (scheme, id) => {
+                await generateDeepDivergenceStimulus(scheme.texts.map(t => t.text), scheme.canvasImage!, id)
+            })
         }
     }, [currentStage]);
     // 更新收敛阶段中被选择的方案
@@ -279,7 +280,7 @@ export default function Paint() {
     }
 
     const generateDeepDivergenceStimulus = async (designTexts: string[], designImage: string, schemeId: number) => {
-        const res: [] = await getDeepDivergenceStimulus({designTexts, designImage, schemeId});
+        const res: [] = await getDeepDivergenceStimulus({designTexts, designImage, schemeId, designTask: designTask as string});
         if (res.length > 0) {
             dispatch({
                 type: ADD_CREATIVES,
@@ -332,6 +333,16 @@ export default function Paint() {
         }
     }, [currentStage, getLeftCreativeNumber(CreativeType.RapidAbstract)]);
     useEffect(() => {
+        if (currentStage === Stage.DeepDivergence) {
+            const left = getLeftCreativeNumber(CreativeType.Deep)
+            if (left <= minDeepCreativeNumber) {
+                designSchemes[Stage.RapidDivergence]?.map(async (scheme, id) => {
+                    await generateDeepDivergenceStimulus(scheme.texts.map(t => t.text), scheme.canvasImage!, id)
+                })
+            }
+        }
+    }, [currentStage, getLeftCreativeNumber(CreativeType.Deep)]);
+    useEffect(() => {
         if (currentStage === Stage.Convergence) {
             const ss = selectedSchemes.map(si => {
                 const {stage, schemeIdx} = getSelectSchemeInfo(si, designSchemes)
@@ -364,7 +375,7 @@ export default function Paint() {
             <div className="md:w-[15%] md:mr-[0.75%] border-r border-ebecf2 rounded-r-lg shadow-custom">
                 <NavBar />
                 <div className="p-[12px]">
-                    <span className='sub-title mb-[12px]'>用户信息</span>
+                    <div className='sub-title mb-[12px]' style={{textAlign: 'left'}}>用户信息</div>
                     {!username?.length ? (
                         <>
                             <TextArea
@@ -394,7 +405,7 @@ export default function Paint() {
                             {username}
                         </div>
                     )}
-                    <span className='sub-title mb-[12px]'>设计任务描述</span>
+                    <div className='sub-title mb-[12px]' style={{textAlign: 'left'}}>设计任务描述</div>
                     {(currentStage === Stage.NotReady && !designTask?.length) ? (
                         <>
                             <TextArea

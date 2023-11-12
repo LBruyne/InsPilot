@@ -64,6 +64,7 @@ export const convergenceMinimizeSchemeNumber = 3
 export const convergenceSchemeNumber =3
 export const maxGenInstanceNumber = 6
 export const minCreativeNumber = 3
+export const minDeepCreativeNumber = 1
 export const getGenerateNumber = (schemeNumber: number) => {
     if (schemeNumber === 1) {
         return 3

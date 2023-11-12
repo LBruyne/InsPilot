@@ -75,10 +75,11 @@ export async function getRapidDivergenceStimulus({task, num}: {
     }
 }
 
-export async function getDeepDivergenceStimulus({designTexts, designImage, schemeId}: {
+export async function getDeepDivergenceStimulus({designTexts, designImage, schemeId, designTask}: {
     designTexts: string[];
     designImage: string; // image b64 
     schemeId: number;
+    designTask: string;
 }) {
     try {
         const res = await fetch(`${baseUrl}/generate`, {
@@ -87,7 +88,7 @@ export async function getDeepDivergenceStimulus({designTexts, designImage, schem
                 appid: PAINT_APP_ID,
                 type: 1,
                 prompts: {
-                    designTexts, designImage, schemeId
+                    designTexts, designImage, schemeId, designTask
                 }
             }),
             headers: {
