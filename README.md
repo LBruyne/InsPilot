@@ -5,6 +5,11 @@ The backend: [InsPilot-api](https://github.com/LBruyne/InsPilot-api).
 
 ## Introduction
 
+The overall usage process is shown in the figure below:
+![process](./docs/process.png)
+
+You can also refer to the video here: `./docs/mv.mp4`.
+
 ### Main Dependencies
 
 - `node`: Run `node -v` to check if `node` is already installed. The node version used in the development environment is v16.16.0, but it can also run successfully on the server version v18.18.2.
