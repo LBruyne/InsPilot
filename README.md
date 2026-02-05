@@ -1,5 +1,5 @@
 # InsPilot
-The frontend for InsPilot: a multimodal creative stimulus system that aids designers by leveraging the capabilities of Large Language Models (LLM) and StableDiffusion (SD). Accompanying the paper [TODO: fill the link].
+The frontend for InsPilot: a multimodal creative stimulus system that aids designers by leveraging the capabilities of Large Language Models (LLM) and StableDiffusion (SD). Accompanying the paper [Investigating intelligent generation of multimodal creative stimuli in conceptual design: strategies and implications](https://www.tandfonline.com/doi/full/10.1080/09544828.2025.2527517).
 
 The backend: [InsPilot-api](https://github.com/LBruyne/InsPilot-api).
 
